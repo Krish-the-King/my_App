@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/rendering.dart';
+import 'package:url_launcher/url_launcher.dart';
 void main() => runApp(MaterialApp(
   home: Home(),
 ));
@@ -67,7 +69,6 @@ class _HomeState extends State<Home> {
                 fontFamily: "Poppins"
               ),
             ),
-            padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
           ),
           Container(
             child: CarouselSlider.builder(
@@ -75,11 +76,37 @@ class _HomeState extends State<Home> {
               itemCount: images.length,
               itemBuilder: (context,index,realindex){
                 final Image =images[index];
-
                 return buildImage(Image, index);
               },
             ),
           ),
+          Container(
+            margin: EdgeInsets.fromLTRB(0, 10, 30, 0),
+            child: ClipRRect(
+              child: Image(
+                image: AssetImage('assets/image 7.jpg'),
+                width: 360,
+              ),
+              borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomRight: Radius.circular((10))),
+            ),
+          ),
+          Container(
+
+            margin: EdgeInsets.fromLTRB(30, 15, 30, 10),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Search Country',
+                suffixIcon: Icon(
+                  Icons.search,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular((60)),
+                  borderSide: BorderSide(
+                    width: 3, color: Colors.grey),
+                  ),
+                ),
+              ),
+            ),
           Container(
             child: Expanded(
               child: ListView.builder(
@@ -206,6 +233,7 @@ class screen2 extends StatefulWidget {
 }
 
 class _screen2State extends State<screen2> {
+  List<bool> isSelected2=[false,false,false,false,false];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -214,14 +242,28 @@ class _screen2State extends State<screen2> {
           Stack(
             clipBehavior: Clip.none,
             children: [
-              Image(image: AssetImage('assets/image 4.jpg')),
+              ClipRRect(child:Image(image: AssetImage('assets/image 4.jpg'),height: 213.5),borderRadius: BorderRadius.circular(20),),
               Positioned(
-                child: Image(
+                child: ClipRRect(child: Image(
                     image: AssetImage('assets/image 5.jpg'),
-                  height: 201,
+                    height: 195,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
-                bottom: -125,
-                right: 10,
+                bottom: -115,
+                right: 14,
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(13, 35, 0, 0),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.keyboard_backspace,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ],
           ),
@@ -301,10 +343,186 @@ class _screen2State extends State<screen2> {
                 ),
               ],
             ),
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 8),
+          ),
+          TextButton(
+            onPressed: () {},
+            style: ButtonStyle(
+              fixedSize: MaterialStateProperty.all<Size>(Size(150,45)),
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.indigo),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                  side: BorderSide(color: Colors.indigo)
+                ),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:[
+                Text(
+                  '   WIKIPEDIA   ',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                Icon(
+                  Icons.arrow_forward_sharp,
+                  color: Colors.white,
+                )
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.fromLTRB(30, 15, 30, 10),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Search City',
+                suffixIcon: Icon(
+                  Icons.search,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular((60)),
+                  borderSide: BorderSide(
+                      width: 3, color: Colors.grey),
+                ),
+              ),
+            ),
+          ),
+          Container(child: Text(
+            'CITIES',
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.w800,
+            ),
+          ),margin: EdgeInsets.fromLTRB(0, 15, 0, 0),),
+          Container(
+            child: Expanded(
+              child: ListView.builder(
+                itemCount: isSelected2.length,
+                itemBuilder: (context, index){
+                  return(Card(
+                    child: ListTile(
+                        onTap: () {
+                          next(context);
+                        },
+                        title: Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Mumbai',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                                Text(
+                                  'Maharashtra',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Spacer(),
+                            Spacer(),
+                            Spacer(),
+                            Spacer(),
+                            Expanded(
+                              child: IconToggleButton2(
+                                isSelected: isSelected2[index],
+                                onPressed: () {
+                                  setState(() {
+                                    isSelected2[index]=!isSelected2[index];
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        )
+                    ),
+                  ));
+                },
+              ),
+            ),
           ),
         ],
       )
     );
   }
+  void next(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => screen3()));
+  }
+  // wiki() async {
+  //   final Uri url = Uri.parse('https://en.wikipedia.org/wiki/India');
+  //   if (await canLaunchUrl(url)) {
+  //     await launchUrl(url);
+  //   } else {
+  //     throw 'Could not launch $url';
+  //   }
+  // }
+}
+class screen3 extends StatefulWidget {
+  const screen3({super.key});
+
+  @override
+  State<screen3> createState() => _screen3State();
 }
 
+class _screen3State extends State<screen3> {
+  List<String> images=['assets/image 9.jpg'];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30),bottomRight: Radius.circular(30)),
+                child: Image(
+                  image: AssetImage('assets/image 8.jpg'),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(30, 40, 0, 0),
+                child:IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.arrow_back_sharp,color: Colors.white,size: 0,),
+                )
+              ),
+            ],
+          ),
+          Container(
+            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+            child: CarouselSlider.builder(
+              options: CarouselOptions(initialPage: 5,height: 550,enableInfiniteScroll: true,enlargeCenterPage: true,viewportFraction: 0.65),
+              itemCount: images.length,
+              itemBuilder: (context,index,realindex){
+                final Image =images[index];
+                return buildImage(Image, index);
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  Widget buildImage(String image,int index) => Card(
+    semanticContainer: true,
+    clipBehavior: Clip.antiAliasWithSaveLayer,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(10)),
+    ),
+    margin: EdgeInsets.symmetric(horizontal: 1),
+    color: Colors.grey[50],
+    child: Image(
+      image: AssetImage(image),
+    ),
+  );
+}

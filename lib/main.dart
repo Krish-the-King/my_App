@@ -19,6 +19,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
           Row(
@@ -43,7 +44,7 @@ class _HomeState extends State<Home> {
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 30,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
                 padding: EdgeInsets.fromLTRB(90, 25, 75, 0),
@@ -91,7 +92,6 @@ class _HomeState extends State<Home> {
             ),
           ),
           Container(
-
             margin: EdgeInsets.fromLTRB(30, 15, 30, 10),
             child: TextField(
               decoration: InputDecoration(
@@ -212,8 +212,8 @@ class IconToggleButton2 extends StatelessWidget {
         icon: Padding(
             padding: EdgeInsets.zero,
             child: isSelected == true
-                ? Icon(Icons.star)
-                : Icon(Icons.star_border)
+                ? Icon(Icons.star,color: Colors.blue[600],)
+                : Icon(Icons.star_border,color: Colors.blue[600])
         ),
         onPressed: () {
           onPressed();
@@ -222,9 +222,30 @@ class IconToggleButton2 extends StatelessWidget {
     );
   }
 }
-
-
-
+class IconToggleButton3 extends StatelessWidget {
+  final bool isSelected;
+  final Function onPressed;
+  IconToggleButton3({required this.isSelected, required this.onPressed});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      child: IconButton(
+        iconSize: 30.0,
+        padding: EdgeInsets.all(5),
+        icon: Padding(
+            padding: EdgeInsets.zero,
+            child: isSelected == true
+                ? Icon(Icons.star,color: Colors.yellow[600],)
+                : Icon(Icons.star_border,color: Colors.yellow[600])
+        ),
+        onPressed: () {
+          onPressed();
+        },
+      ),
+    );
+  }
+}
 class screen2 extends StatefulWidget {
   const screen2({super.key});
 
@@ -432,7 +453,7 @@ class _screen2State extends State<screen2> {
                             Spacer(),
                             Spacer(),
                             Expanded(
-                              child: IconToggleButton2(
+                              child: IconToggleButton3(
                                 isSelected: isSelected2[index],
                                 onPressed: () {
                                   setState(() {

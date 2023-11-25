@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1026166009994",
+    "project_id": "sutt-app",
+    "storage_bucket": "sutt-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1026166009994:android:462388fbe6e64f406dfd73",
+        "android_client_info": {
+          "package_name": "com.example.my_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnyhu3vuXQjk10llKzrvSRuwVs1Po-iRk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
